@@ -6,8 +6,8 @@
 YangZhuoya
 
 ### profile
-![YangZhuoya](file:///Users/zyggyzdys/Desktop/ETH/2023%20Autumn/Statistical%20Analysis%20of%20High-Throughput%20Genomics%20and%20Transcriptomic%20Data/STA426/profile.JPG)
+![see profile](https://github.com/YangZhuoya/STA426/blob/main/profile.JPG)
 
 ### link
 
-[YangZhuoya](https://github.com/YangZhuoya)
+[Visit GitHub](https://github.com/YangZhuoya)
