@@ -1,8 +1,9 @@
 ---
 title: "Exercise1 Part B"
 author: "Yang Zhuoya"
-format: html
-embed-resources: true
+format:
+  html:
+    self-contained: true
 editor: visual
 editor_options: 
   chunk_output_type: inline
