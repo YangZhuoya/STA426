@@ -1,0 +1,54 @@
+---
+title: "Exercise1 Part B"
+author: "Yang Zhuoya"
+format:
+  html:
+    self-contained: true
+editor: visual
+editor_options: 
+  chunk_output_type: inline
+---
+
+## Sample
+
+Samples 100 values from a log-normal distribution, the mean and standard deviation of the distribution on the log scale is 5 and 0.5 respectively:
+
+```{r}
+set.seed(10)
+sample = rlnorm(100, meanlog = 5, sdlog = 0.5)
+
+```
+
+## Plots
+
+### Histogram
+
+Show the histogram of linear scales:
+
+```{r}
+library(ggplot2)
+hist(sample,breaks = 20)
+```
+
+Show the histogram of log scales:
+
+```{r}
+hist(log(sample), breaks = 20)
+```
+
+### Violin Plot
+
+Show the violin plot:
+
+```{r}
+data <- data.frame(Value = sample)
+ggplot(data, aes(x = "", y = Value)) +
+  geom_violin() + 
+  xlab("sample") +
+  ylab("Sample Values") +
+  ggtitle("Violin Plot")
+```
+
+## Mean & sd
+
+The mean of the sampled value is 154.6086; The standard deviation of the sampled value is 75.30681.
