@@ -212,15 +212,15 @@ By eye, the classical 2-sample t-test better separates the truly differential fr
 I choose to use ROC and the AUC to compare different methods.
 
 ```{r}
+set.seed(22)
 library(ROCR)
-
 # True labels
 true_labels <- ifelse(1:nGenes %in% indD, 1, 0)
 
-# Get predictions
-predictions_classical_t <- prediction(as.numeric(t_stats), true_labels)
-predictions_moderated_t <- prediction(as.numeric(fit$t[, 2]), true_labels)
-predictions_logFC <- prediction(as.numeric(fit$coef[, 2]), true_labels)
+# Get predictions using absolute values
+predictions_classical_t <- prediction(as.numeric(abs(t_stats)), true_labels) 
+predictions_moderated_t <- prediction(as.numeric(abs(fit$t[, 2])), true_labels)
+predictions_logFC <- prediction(as.numeric(abs(fit$coef[, 2])), true_labels)
 
 # ROC curves
 roc_classical <- performance(predictions_classical_t, "tpr", "fpr")
@@ -234,8 +234,8 @@ auc_logFC <- performance(predictions_logFC, "auc")@y.values[[1]]
 
 # Plotting ROC curves
 plot(roc_classical, col="blue", main="ROC curves for different methods")
-lines(roc_moderated@x.values[[1]], roc_moderated@y.values[[1]], col="red")  # Explicit extraction
-lines(roc_logFC@x.values[[1]], roc_logFC@y.values[[1]], col="green")  # Explicit extraction
+lines(roc_moderated@x.values[[1]], roc_moderated@y.values[[1]], col="red")
+lines(roc_logFC@x.values[[1]], roc_logFC@y.values[[1]], col="green")
 legend(0.6, 0.2, legend=c("Classical t-test", "Moderated t-test", "Log-fold-change"), 
        col=c("blue", "red", "green"), lty=1)
 
@@ -244,7 +244,7 @@ cat("AUC for Moderated t-test:", auc_moderated, "\n")
 cat("AUC for Log-fold-change:", auc_logFC, "\n")
 ```
 
-The classical t-test has highest AUC and the log-fold-change has lowest. But the differences in AUC between the three methods are very small. As for ROC, curves of classical t-test and moderated t-test are strongly overlapped. Log-fold-change has a different curve which is more twisted. It is difficult to choose the obviously best methods among the three methods.
+The moderated t-test has highest AUC and the log-fold-change has lowest. As for ROC, curves of classical t-test and moderated t-test are similar, and the curve of moderated t-test is better. Log-fold-change has a different curve which is more twisted. So combine the ROC curves and AUROC, I think the moderated t-test is best, then classical t-test, then log-fold-change.
 
 Next, we will run a standard ‘limma’ differential expression (DE) analysis on a real microarray dataset. In particular, we will explore the combination of design matrices and contrast matrices to answer DE questions-of-interest. If you need additional resources to understand this exercise or the methods behind it, it is strongly encourage to skim both the limma paper and the limma user’s guide; the main details are also given in the lecture.
 
